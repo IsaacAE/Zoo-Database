@@ -123,7 +123,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER validar_cuidador_animal
+CREATE or replace TRIGGER validar_cuidador_animal
 BEFORE INSERT ON Animal
 FOR EACH ROW
 EXECUTE FUNCTION validar_cuidador_unico();
@@ -266,7 +266,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER validar_ave_aviario
+CREATE or replace TRIGGER validar_ave_aviario
 BEFORE INSERT ON Animal
 FOR EACH ROW
 EXECUTE FUNCTION verificar_ave_aviario();
@@ -285,7 +285,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER verificar_especie_ave
+create or replace TRIGGER verificar_especie_ave
 BEFORE INSERT ON Animal
 FOR EACH ROW
 EXECUTE FUNCTION validar_especie_ave();
@@ -357,6 +357,8 @@ create or replace TRIGGER validar_tupla_atender
 BEFORE INSERT ON Atender
 FOR EACH ROW
 EXECUTE FUNCTION verificar_tupla_atender();
+
+
 
 
 

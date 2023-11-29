@@ -1032,6 +1032,40 @@ COMMENT ON CONSTRAINT fk12 ON Atender IS 'Llave foranea idAnimal que referencia 
 
 
 
+create table Notificar(
+		idCliente INT,
+		idEvento INT,
+		promocion VARCHAR(50),
+		descuento MONEY
+);
+
+ALTER TABLE Notificar ALTER COLUMN idCliente SET NOT NULL;
+ALTER TABLE Notificar ALTER COLUMN idEvento SET NOT NULL;
+ALTER TABLE Notificar ALTER COLUMN promocion SET NOT NULL;
+ALTER TABLE Notificar ALTER COLUMN descuento SET NOT NULL;
+
+ALTER TABLE Notificar ADD CONSTRAINT promocionNN CHECK (promocion <> '');
+ALTER TABLE Notificar ADD CONSTRAINT rangoDesc CHECK (descuento >= 0::money AND descuento <= 20::money);
+
+
+-- Atender Restricciones Referenciales
+ALTER TABLE Notificar ADD CONSTRAINT fkXX FOREIGN KEY(idCliente) REFERENCES Cliente(idCliente) on update cascade on delete cascade;
+ALTER TABLE Notificar ADD CONSTRAINT fkXXI FOREIGN KEY(idEvento) REFERENCES Evento(idEvento) on update cascade ON DELETE CASCADE;
+
+--Comentarios 
+COMMENT ON TABLE Notificar IS 'Tabla que contiene las notifiaciones generadas por los eventos';
+
+COMMENT ON COLUMN Notificar.idCliente IS 'Identificador del cliente notificado';
+COMMENT ON COLUMN Notificar.idEvento IS 'Identificador del evento del que se notifica';
+COMMENT ON COLUMN Notificar.promocion IS 'Promocion que se comunica';
+COMMENT ON COLUMN Notificar.descuento IS 'Descuento que se proporciona';
+
+COMMENT ON CONSTRAINT promocionNN ON Notificar IS 'Restriccion CHECK. La cadena no puede ser vacia';
+COMMENT ON CONSTRAINT rangoDesc ON Notificar IS 'Restriccion CHECK. Rango de valor que puede tomar el descuento';
+
+COMMENT ON CONSTRAINT fkXX ON Notificar IS 'Llave foranea idCliente debe referenciar a una en la tabla Cliente';
+COMMENT ON CONSTRAINT fkXXI ON Notificar IS 'Llave foranea idEvento debe referenciar a una en la tabla Evento';
+
 
 
 
