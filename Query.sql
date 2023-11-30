@@ -90,3 +90,7 @@ SELECT * FROM veterinario
 			) 
 	); 
 	
+-- Ingresos registrados por año ordenados de manera descendete.
+SELECT SUM(costounitario - descuento), EXTRACT(YEAR FROM fecha) AS anio FROM TICKET
+	GROUP BY anio
+	ORDER BY anio;
