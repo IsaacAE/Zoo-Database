@@ -359,6 +359,158 @@ FOR EACH ROW
 EXECUTE FUNCTION verificar_tupla_atender();
 
 
+create or replace function validar_no_numeros()
+returns trigger as $$
+declare 
+	currCol text;
+	new_val text;
+begin
+	-- Iterate through each column in the specified table
+    for currCol in
+        select column_name
+        from information_schema.columns
+        where table_name = TG_TABLE_NAME
+    loop 
+    	execute 'SELECT ($1).' || currCol || '::text' into new_val using new;
+    	
+    	if(select data_type from information_schema.columns where table_name = TG_TABLE_NAME AND column_name = currCol)
+    	 	not in ('numeric', 'double precision', 'integer', 'real') AND 
+           new_val ~ '^\d+$' THEN 
+		    RAISE EXCEPTION 'Valor no numerico en columna %', currCol;
+        END IF; 
+    end loop;
+    
+	return new;
+end;
+$$ 
+language plpgsql;
+
+create or replace trigger validar_no_numericos
+before insert on alimento
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on animal
+for each row
+execute function validar_no_numeros();
+
+
+create or replace trigger validar_no_numericos
+before insert on asistir
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on atender
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on bioma
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on cliente
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on correocliente
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on correoproveedor
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on correoveterinario
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on cuidador
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on distribuir
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on evento
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on insumo
+for each row
+execute function validar_no_numeros();
+
+
+create or replace trigger validar_no_numericos
+before insert on jaula
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on medicina
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on notificar
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on proveedor
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on proveer
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on servicio
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on ticket
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on trabajar
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+before insert on veterinario
+for each row
+execute function validar_no_numeros();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
