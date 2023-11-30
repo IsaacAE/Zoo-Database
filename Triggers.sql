@@ -483,27 +483,6 @@ for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on telefonocliente
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on telefonocuidador
-for each row
-execute function validar_no_numeros();
-
-
-create or replace trigger validar_no_numericos
-before insert on telefonoproveedor
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on telefonoveterinario
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
 before insert on ticket
 for each row
 execute function validar_no_numeros();
@@ -517,6 +496,7 @@ create or replace trigger validar_no_numericos
 before insert on veterinario
 for each row
 execute function validar_no_numeros();
+
 
 
 
