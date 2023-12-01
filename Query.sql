@@ -90,7 +90,61 @@ SELECT * FROM veterinario
 			) 
 	); 
 	
--- Ingresos registrados por año ordenados de manera descendete.
-SELECT SUM(costounitario - descuento), EXTRACT(YEAR FROM fecha) AS anio FROM TICKET
-	GROUP BY anio
-	ORDER BY anio;
+-- Ingresos registrados por mes y año.
+SELECT SUM(costounitario - descuento), EXTRACT(YEAR FROM fecha) AS anio, EXTRACT(MONTH FROM fecha) AS mes FROM TICKET
+	GROUP BY mes, anio
+	ORDER BY anio, mes;
+	
+-- Los meses que han generado más de 1500
+SELECT SUM(costounitario - descuento), EXTRACT(YEAR FROM fecha) AS anio, EXTRACT(MONTH FROM fecha) AS mes FROM TICKET
+	GROUP BY mes, anio
+	HAVING SUM(costounitario - descuento) > '$1500.00'::money
+	ORDER BY anio, mes;
+	
+-- Eventos que tuviesen al menos 5 asistentes con descuento
+SELECT * FROM evento
+	WHERE idevento IN (
+		SELECT notificar.idevento FROM asistir JOIN notificar ON asistir.idcliente = notificar.idcliente
+			GROUP BY notificar.idevento 
+			HAVING COUNT(asistir.idevento) > 5
+	)
+	
+-- Nombres de cuidadores tales que existe un proovedor con el mismo nombre pero no un veterinario con tal nombre.
+SELECT nombre FROM cuidador
+	WHERE nombre IN (
+		SELECT nombre FROM proveedor
+			WHERE nombre NOT IN (
+				SELECT nombre FROM veterinario
+			)
+	)
+
+-- Eventos cuya asistencia fue de al menos un cuarto de la capaccidad.
+SELECT * FROM evento
+	WHERE idevento IN (
+		SELECT evento.idevento FROM 
+			evento JOIN asistir ON evento.idevento = asistir.idevento 
+			GROUP BY evento.idevento
+			HAVING count(asistir.idcliente) >= capacidad/4
+		);
+		
+-- Nombres de cuidadores, veterinarios o proveedores cuyo numero telefonico empiece en 55 y termine en 04
+SELECT nombre FROM veterinario
+	WHERE rfc IN (
+		SELECT rfc FROM telefonoveterinario
+			WHERE telefono::VARCHAR LIKE '55%04'
+	)
+UNION
+SELECT nombre FROM cuidador
+	WHERE rfc IN (
+		SELECT rfc FROM telefonocuidador
+			WHERE telefono::VARCHAR LIKE '55%04'
+	)
+UNION
+SELECT nombre FROM proveedor
+	WHERE rfc IN (
+		SELECT rfc FROM telefonoproveedor
+			WHERE telefono::VARCHAR LIKE '55%04'
+	);
+	
+                    
+                   
