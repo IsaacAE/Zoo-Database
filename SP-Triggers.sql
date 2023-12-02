@@ -504,7 +504,7 @@ BEGIN
     DELETE FROM insumo WHERE caducidad < CURRENT_DATE;
 END;
 $$
-
+Language plpgsql;
 
 
 
