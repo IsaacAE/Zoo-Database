@@ -53,8 +53,7 @@ SELECT * FROM proveedor
 			OR tipobioma = 'aviario'
 	);
 	
--- Veterinarios que tienen unicamente correo y han atendido a animales carnívoros
-
+-- Veterinarios que tienen unicamente un correo y han atendido a animales carnívoros
 SELECT * FROM veterinario
 	WHERE rfc IN (
 		SELECT rfc FROM correoveterinario
@@ -107,7 +106,7 @@ SELECT * FROM evento
 		SELECT notificar.idevento FROM asistir JOIN notificar ON asistir.idcliente = notificar.idcliente
 			GROUP BY notificar.idevento 
 			HAVING COUNT(asistir.idevento) > 5
-	)
+	);
 	
 -- Nombres de cuidadores tales que existe un proovedor con el mismo nombre pero no un veterinario con tal nombre.
 SELECT nombre FROM cuidador
@@ -116,7 +115,7 @@ SELECT nombre FROM cuidador
 			WHERE nombre NOT IN (
 				SELECT nombre FROM veterinario
 			)
-	)
+	);
 
 -- Eventos cuya asistencia fue de al menos un cuarto de la capaccidad.
 SELECT * FROM evento
@@ -146,5 +145,9 @@ SELECT nombre FROM proveedor
 			WHERE telefono::VARCHAR LIKE '55%04'
 	);
 	
-                    
-                   
+-- Cantidad de animales disponibles por bioma.
+SELECT COUNT(animal.idanimal) AS disponibles, bioma.tipobioma, jaula.numjaula FROM bioma JOIN jaula  ON jaula.tipobioma = bioma.tipobioma 
+																   						 JOIN animal ON jaula.tipobioma = animal.tipobioma
+	GROUP BY jaula.numjaula, bioma.tipobioma
+	ORDER BY bioma.tipobioma;
+
