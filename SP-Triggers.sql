@@ -20,7 +20,7 @@ $$ LANGUAGE plpgsql;
 
 -- Asociar el trigger a la tabla Veterinario
 CREATE or replace TRIGGER validar_rfc_en_veterinario
-BEFORE INSERT ON Veterinario
+BEFORE INSERT OR UPDATE ON Veterinario
 FOR EACH ROW
 EXECUTE FUNCTION validar_rfc_veterinario();
 
@@ -45,7 +45,7 @@ $$ LANGUAGE plpgsql;
 
 -- Asociar el trigger a la tabla Veterinario
 CREATE or replace TRIGGER validar_rfc_en_cuidador
-BEFORE INSERT ON Cuidador
+BEFORE INSERT OR UPDATE ON Cuidador
 FOR EACH ROW
 EXECUTE FUNCTION validar_rfc_cuidador();
 
@@ -69,7 +69,7 @@ $$ LANGUAGE plpgsql;
 
 -- Asociar el trigger a la tabla Veterinario
 CREATE or replace TRIGGER validar_rfc_en_proveedor
-BEFORE INSERT ON Proveedor
+BEFORE INSERT OR UPDATE ON Proveedor
 FOR EACH ROW
 EXECUTE FUNCTION validar_rfc_proveedor();
 
@@ -88,7 +88,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE or replace TRIGGER validar_cuidador_animal
-BEFORE INSERT ON Animal
+BEFORE INSERT OR UPDATE ON Animal
 FOR EACH ROW
 EXECUTE FUNCTION validar_cuidador_unico();
 
@@ -133,7 +133,7 @@ $$ LANGUAGE plpgsql;
 
 -- Asociar el trigger a la tabla Medicina
 CREATE or replace TRIGGER validar_insumo_medicina
-BEFORE INSERT ON Medicina
+BEFORE INSERT OR UPDATE ON Medicina
 FOR EACH ROW
 EXECUTE FUNCTION validar_medicina();
 
@@ -154,7 +154,7 @@ $$ LANGUAGE plpgsql;
 
 -- Asociar el trigger a la tabla Alimento
 CREATE or replace TRIGGER validar_insumo_alimento
-BEFORE INSERT or update ON Alimento
+BEFORE INSERT OR UPDATE ON Alimento
 FOR EACH ROW
 EXECUTE FUNCTION validar_alimento();
 
@@ -206,7 +206,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 create or replace TRIGGER validar_asistencia
-BEFORE INSERT ON Asistir
+BEFORE INSERT OR UPDATE ON Asistir
 FOR EACH ROW
 EXECUTE FUNCTION verificar_asistencia();
 
@@ -223,7 +223,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE or replace TRIGGER validar_ave_aviario
-BEFORE INSERT ON Animal
+BEFORE INSERT OR UPDATE ON Animal
 FOR EACH ROW
 EXECUTE FUNCTION verificar_ave_aviario();
 
@@ -242,7 +242,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 create or replace TRIGGER verificar_especie_ave
-BEFORE INSERT ON Animal
+BEFORE INSERT OR UPDATE ON Animal
 FOR EACH ROW
 EXECUTE FUNCTION validar_especie_ave();
 
@@ -265,7 +265,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 create or replace TRIGGER validar_distribucion
-BEFORE INSERT ON Distribuir
+BEFORE INSERT OR UPDATE ON Distribuir
 FOR EACH ROW
 EXECUTE FUNCTION verificar_distribucion();
 
@@ -287,7 +287,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 create or replace TRIGGER validar_trabajo_bioma
-BEFORE INSERT ON Trabajar
+BEFORE INSERT OR UPDATE ON Trabajar
 FOR EACH ROW
 EXECUTE FUNCTION verificar_trabajo_bioma();
 
@@ -310,7 +310,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 create or replace TRIGGER validar_tupla_atender
-BEFORE INSERT ON Atender
+BEFORE INSERT OR UPDATE ON Atender
 FOR EACH ROW
 EXECUTE FUNCTION verificar_tupla_atender();
 
@@ -342,114 +342,114 @@ $$
 language plpgsql;
 
 create or replace trigger validar_no_numericos
-before insert on alimento
+BEFORE INSERT OR UPDATE on alimento
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on animal
-for each row
-execute function validar_no_numeros();
-
-
-create or replace trigger validar_no_numericos
-before insert on asistir
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on atender
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on bioma
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on cliente
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on correocliente
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on correoproveedor
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on correoveterinario
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on cuidador
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on distribuir
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on evento
-for each row
-execute function validar_no_numeros();
-
-create or replace trigger validar_no_numericos
-before insert on insumo
+BEFORE INSERT OR UPDATE on animal
 for each row
 execute function validar_no_numeros();
 
 
 create or replace trigger validar_no_numericos
-before insert on jaula
+BEFORE INSERT OR UPDATE on asistir
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on medicina
+BEFORE INSERT OR UPDATE on atender
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on notificar
+BEFORE INSERT OR UPDATE on bioma
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on proveedor
+BEFORE INSERT OR UPDATE on cliente
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on proveer
+BEFORE INSERT OR UPDATE on correocliente
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on servicio
+BEFORE INSERT OR UPDATE on correoproveedor
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on ticket
+BEFORE INSERT OR UPDATE on correoveterinario
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on trabajar
+BEFORE INSERT OR UPDATE on cuidador
 for each row
 execute function validar_no_numeros();
 
 create or replace trigger validar_no_numericos
-before insert on veterinario
+BEFORE INSERT OR UPDATE on distribuir
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on evento
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on insumo
+for each row
+execute function validar_no_numeros();
+
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on jaula
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on medicina
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on notificar
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on proveedor
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on proveer
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on servicio
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on ticket
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on trabajar
+for each row
+execute function validar_no_numeros();
+
+create or replace trigger validar_no_numericos
+BEFORE INSERT OR UPDATE on veterinario
 for each row
 execute function validar_no_numeros();
 
