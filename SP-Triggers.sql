@@ -1,3 +1,5 @@
+---------------------------------------------- TRIGGERS --------------------------------------------------
+
 CREATE OR REPLACE FUNCTION funcionInvertir()
 RETURNS TRIGGER AS $$
 BEGIN 
@@ -194,10 +196,6 @@ BEFORE INSERT or update ON Alimento
 FOR EACH ROW
 EXECUTE FUNCTION validar_alimento();
 
-
-
-
-
 CREATE OR REPLACE FUNCTION verificar_mismo_bioma()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -227,10 +225,6 @@ CREATE or replace TRIGGER validar_bioma_atender
 BEFORE INSERT OR UPDATE ON Atender
 FOR EACH ROW
 EXECUTE FUNCTION verificar_mismo_bioma();
-
-
-
-
 
 
 CREATE OR REPLACE FUNCTION verificar_asistencia() 
@@ -497,7 +491,57 @@ before insert on veterinario
 for each row
 execute function validar_no_numeros();
 
+---------------------------------------------- SPs --------------------------------------------------
 
+-- Dado un rfc y una tabla devuelve el correo de un trabajador correspondiente a esa tabla y rfc si lo hay.
+CREATE OR REPLACE PROCEDURE crea_correo(
+	rfcP IN VARCHAR(50),
+	tabla IN VARCHAR(50),
+	correo OUT VARCHAR(50)
+) AS $$
+DECLARE 
+	id_query VARCHAR;
+BEGIN
+   	IF tabla = 'veterinario' THEN 
+   		IF rfcP IN (SELECT rfc FROM veterinario) THEN
+   			SELECT nombre INTO id_query FROM veterinario
+   				WHERE rfc = rfcP;
+   		ELSE 
+   			RAISE EXCEPTION 'RFC % no encontrado en %', rfcP, tabla;
+   		END IF;
+   	ELSE 
+	    IF tabla = 'cuidador' THEN 
+	   	 	IF rfcP IN (SELECT rfc FROM cuidador) THEN
+	   			SELECT nombre INTO id_query FROM cuidador
+	   				WHERE rfc = rfcP;
+	   		ELSE 
+	   			RAISE EXCEPTION 'RFC % no encontrado en %', rfcP, tabla;
+	   		END IF;
+	   	ELSE 
+		    IF tabla = 'proveedor' THEN 
+		   		IF rfcP IN (SELECT rfc FROM proveedor) THEN
+		   			SELECT nombre INTO id_query FROM proveedor
+		   				WHERE rfc = rfcP;
+		   		ELSE 
+		   			RAISE EXCEPTION 'RFC % no encontrado en %', rfcP, tabla;
+		   		END IF;
+		   	ELSE
+	   			RAISE EXCEPTION 'No existe el trabajador de clase %', tabla;
+		   	END IF;
+		END IF;
+	END IF;
+	correo := id_query || rfcP || '@gmail.com'; 
+END;
+$$
+Language plpgsql;
+
+-- Elimina los productos caducados
+CREATE OR REPLACE PROCEDURE caducados()
+AS $$
+BEGIN
+    DELETE FROM insumo WHERE caducidad < CURRENT_DATE;
+END;
+$$
 
 
 
